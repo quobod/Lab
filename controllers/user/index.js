@@ -31,7 +31,7 @@ export const userDashboard = asyncHandler(async (req, res) => {
 //  @route          POST /user/contacts
 //  @access         Private
 export const addNewContact = asyncHandler(async (req, res) => {
-  logger.info(`GET: /user/contacts`);
+  logger.info(`POST: /user/contacts`);
 
   const { fname, lname, email, phone } = req.body;
 
