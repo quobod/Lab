@@ -12,6 +12,12 @@ import {
 import { error, log, cls, table } from "./printer.js";
 import { parse, stringify, keys, cap } from "./utils.js";
 import * as userManager from "./usermanager.js";
+import {
+  alphanumeric,
+  decimalsOnly,
+  integersOnly,
+  lettersOnly,
+} from "./regex.js";
 
 export {
   errorMessage,
@@ -32,4 +38,8 @@ export {
   userManager,
   dbMessage,
   cap,
+  alphanumeric,
+  decimalsOnly,
+  integersOnly,
+  lettersOnly,
 };

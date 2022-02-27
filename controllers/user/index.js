@@ -76,10 +76,11 @@ export const addNewContact = asyncHandler(async (req, res) => {
 
     console.log(`${stringify(arrResult)}\n`);
 
-    return res.status(200).render("user/dashboard", {
+    return res.render("user/dashboard", {
       title: "Error",
       error: true,
       errors: arrResult,
+      csrfToken: req.csrfToken,
     });
   } else {
     const { email, phone, fname, lname } = req.body;
@@ -132,4 +133,29 @@ export const addNewContact = asyncHandler(async (req, res) => {
          res.status(200).json({ error: err });
        }); */
   }
+});
+
+//  @desc           Search contacts by keyword
+//  @route          POST /user/contacts/:keyword
+//  @access         Private
+export const searchContacts = asyncHandler(async (req, res) => {
+  const { searchKey } = req.body;
+
+  console.log(`\n\tSearcing by keyword: ${searchKey}`);
+
+  User.find({
+    $or: [
+      { $and: [{ email: `${searchKey}` }] },
+      { $and: [{ fname: `${searchKey}` }] },
+      { $and: [{ lname: `${searchKey}` }] },
+    ],
+  })
+    .then((docs) => {
+      console.log(docs);
+      res.redirect("/user/dashboard");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/user/dashboard");
+    });
 });
