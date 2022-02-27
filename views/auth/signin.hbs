@@ -1,0 +1,16 @@
+<div class="grid-container form-container" style="margin:5% auto 5% auto;">
+    <form id="signin-form" action="/auth/signin" method="post" class="grid-x grid-margin-y">
+        <div class="cell small-12">
+            <input type="email" name="email" id="signin-email" class="input-control" placeholder="Email" required />
+        </div>
+
+        <div class="cell small-12">
+            <input type="password" name="pwd" id="signin-pwd" class="input-control" placeholder="Password" required />
+            {{!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> --}}
+        </div>
+
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" readonly>
+
+        <input id="sig-submit-button" type="submit" class="button" type="button" style="border-radius: 15px;">
+    </form>
+</div>
