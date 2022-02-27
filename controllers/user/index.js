@@ -18,7 +18,7 @@ export const userDashboard = asyncHandler(async (req, res) => {
     user.fname = cap(user.fname);
     user.lname = cap(user.lname);
 
-    console.log(user);
+    // console.log(user);
     console.log(`\n\n`);
 
     Contact.find()
@@ -83,12 +83,28 @@ export const addNewContact = asyncHandler(async (req, res) => {
     });
   } else {
     const { email, phone, fname, lname } = req.body;
+    const user = req.user.withoutPassword();
 
-    console.log(
-      `\n\tNew Contact:\n\t\tFirst Name: ${fname}\n\t\tLast Name: ${lname}\n\t\tEmail: ${email}\n\t\tPhone: ${phone}\n`
-    );
+    const newContact = new Contact({
+      emails: [email],
+      phones: [phone],
+      fname,
+      lname,
+      owner: user._id,
+    });
 
-    res.redirect("/user/dashboard");
+    newContact
+      .save()
+      .then((doc) => {
+        console.log("\n\tNew contact " + doc);
+
+        res.redirect("/user/dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
+
+        res.redirect("/user/dashboard");
+      });
 
     /*  User.findOne({ email: `${email}` })
        .then((user) => {
