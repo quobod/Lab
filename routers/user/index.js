@@ -7,23 +7,17 @@ const user = Router();
 
 user.route("/dashboard").get(signedIn, userDashboard);
 
-user.route("/contacts").post(
-  signedIn,
-  [
-    body("email").isEmail().withMessage("Must provide a valid email"),
-    body("pwd").notEmpty().withMessage("Must create a password"),
-    body("pwd2")
-      .notEmpty()
-      .custom((value, { req }) => {
-        if (value !== req.body.pwd) {
-          throw new Error("Password confirmation does not match password");
-        }
-        return true;
-      }),
-    body("fname").notEmpty().withMessage("Must provide a first name"),
-    body("lname").notEmpty().withMessage("Must provide a last name"),
-  ],
-  addNewContact
-);
+user
+  .route("/contacts")
+  .post(
+    signedIn,
+    [
+      body("email").isEmail().withMessage("Must provide a valid email"),
+      body("phone").isMobilePhone(),
+      body("fname").notEmpty().withMessage("Must provide a first name"),
+      body("lname").notEmpty().withMessage("Must provide a last name"),
+    ],
+    addNewContact
+  );
 
 export default user;

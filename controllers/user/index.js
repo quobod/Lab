@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import bunyan from "bunyan";
 import { body, check, validationResult } from "express-validator";
-import { cap } from "../../custom_modules/index.js";
+import { cap, stringify } from "../../custom_modules/index.js";
 import User from "../../models/UserModel.js";
 import Contact from "../../models/Contacts.js";
 
@@ -17,13 +17,29 @@ export const userDashboard = asyncHandler(async (req, res) => {
     const user = req.user.withoutPassword();
     user.fname = cap(user.fname);
     user.lname = cap(user.lname);
-    res.render("user/dashboard", {
-      title: `Dashboard`,
-      user: user,
-      csrfToken: req.csrfToken,
-    });
+
+    console.log(user);
+    console.log(`\n\n`);
+
+    Contact.find()
+      .where("owner")
+      .equals(`${user._id}`)
+      .exec((err, docs) => {
+        if (err) {
+          console.log(err);
+        }
+
+        res.render("user/dashboard", {
+          title: `Dashboard`,
+          user: user,
+          csrfToken: req.csrfToken,
+          hasContacts: docs.length > 0,
+          contacts: docs,
+        });
+      });
   } catch (err) {
-    res.redirect("/auth/signin");
+    console.log(err);
+    res.status(200).json({ status: JSON.stringify(err) });
   }
 });
 
@@ -60,7 +76,7 @@ export const addNewContact = asyncHandler(async (req, res) => {
 
     console.log(`${stringify(arrResult)}\n`);
 
-    return res.status(200).render("auth/register", {
+    return res.status(200).render("user/dashboard", {
       title: "Error",
       error: true,
       errors: arrResult,
@@ -72,7 +88,7 @@ export const addNewContact = asyncHandler(async (req, res) => {
       `\n\tNew Contact:\n\t\tFirst Name: ${fname}\n\t\tLast Name: ${lname}\n\t\tEmail: ${email}\n\t\tPhone: ${phone}\n`
     );
 
-    res.status(200).json({ status: `all good` });
+    res.redirect("/user/dashboard");
 
     /*  User.findOne({ email: `${email}` })
        .then((user) => {

@@ -9,7 +9,10 @@ import passport from "passport";
 import mongoose from "mongoose";
 import session from "express-session";
 import MongoDBStore from "connect-mongodb-session";
-import { engine } from "express-handlebars";
+// import { engine } from "express-handlebars";
+import Handlebars from "handlebars";
+import expressHandlebars from "express-handlebars";
+import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 import { customAlphabet } from "nanoid";
 import csurf from "csurf";
 import axios from "axios";
@@ -72,7 +75,29 @@ const app = express();
 passportConfig(passport);
 
 app.set("views", path.join(__dirname, "views"));
-app.engine("hbs", engine());
+
+// view engine setup
+app.engine(
+  ".hbs",
+  expressHandlebars({
+    handlebars: allowInsecurePrototypeAccess(Handlebars),
+    defaultLayout: "layout",
+    partials: "partials",
+    extname: ".hbs",
+  })
+);
+//app.set('views', path.join(__dirname, 'views'));
+app.set("view engine", ".hbs");
+
+/* app.engine(
+  "handlebars",
+  expressHandlebars({
+    handlebars: allowInsecurePrototypeAccess(Handlebars),
+  })
+);
+app.set("view engine", "handlebars"); */
+
+/* app.engine("hbs", engine());
 app.set("view engine", "hbs");
 app.engine(
   "hbs",
@@ -81,7 +106,8 @@ app.engine(
     partials: "partials",
     extname: ".hbs",
   })
-);
+); */
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
