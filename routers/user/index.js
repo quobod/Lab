@@ -39,6 +39,6 @@ user.route("/contacts").post(
   addNewContact
 );
 
-user.route(`/contact`).post(signedIn, searchContacts);
+user.route(`/contacts/search`).post(signedIn, searchContacts);
 
 export default user;

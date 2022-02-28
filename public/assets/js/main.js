@@ -27,7 +27,7 @@ addHandler(elements.showPresenceInput, "click", (e) => {
 addHandler(elements.searchInput, "keyup", (e) => {
   const element = e.target;
   const value = e.target.value;
-  const text = value.replace(/[^a-zA-Z\.0-9]/gi, "").trim();
+  const text = value.replace(/[^a-zA-Z\.0-9\@]/gi, "").trim();
 
   console.log(text);
   element.value = text;

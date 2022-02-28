@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import bunyan from "bunyan";
 import { body, check, validationResult } from "express-validator";
-import { cap, stringify } from "../../custom_modules/index.js";
+import { cap, stringify, log } from "../../custom_modules/index.js";
 import User from "../../models/UserModel.js";
 import Contact from "../../models/Contacts.js";
 
@@ -136,26 +136,44 @@ export const addNewContact = asyncHandler(async (req, res) => {
 });
 
 //  @desc           Search contacts by keyword
-//  @route          POST /user/contacts/:keyword
+//  @route          POST /user/contacts/search
 //  @access         Private
 export const searchContacts = asyncHandler(async (req, res) => {
+  logger.info(`POST: /user/contacts/search`);
   const { searchKey } = req.body;
+  const user = req.user;
 
   console.log(`\n\tSearcing by keyword: ${searchKey}`);
 
-  User.find({
-    $or: [
-      { $and: [{ email: `${searchKey}` }] },
-      { $and: [{ fname: `${searchKey}` }] },
-      { $and: [{ lname: `${searchKey}` }] },
-    ],
-  })
-    .then((docs) => {
+  Contact.find(
+    {
+      $or: [{ emails: { $in: `${searchKey}` } }, { fname: `${searchKey}` }],
+    },
+    (err, docs) => {
+      if (err) {
+        log(`\n\tError`);
+        log(err);
+        log(`\n\n`);
+
+        res.render("user/dashboard", {
+          title: `Dashboard`,
+          user: user,
+          csrfToken: req.csrfToken,
+          error: true,
+          errors: err,
+        });
+      }
+      log(`\n`);
       console.log(docs);
-      res.redirect("/user/dashboard");
-    })
-    .catch((err) => {
-      console.log(err);
-      res.redirect("/user/dashboard");
-    });
+      log(`\n`);
+
+      res.render("user/dashboard", {
+        title: `Dashboard`,
+        user: user,
+        csrfToken: req.csrfToken,
+        hasContacts: docs.length > 0,
+        contacts: docs,
+      });
+    }
+  );
 });
