@@ -6,7 +6,7 @@
   background-color: rgb(8, 62, 128);
   color: white;
   border-radius: 15px;
-  width: calc(100vw / 4);
+
   transform: translate3d(0, -300%, 0);
   transition: transform 0.6s;
 }
