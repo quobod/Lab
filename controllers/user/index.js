@@ -147,7 +147,12 @@ export const searchContacts = asyncHandler(async (req, res) => {
 
   Contact.find(
     {
-      $or: [{ emails: { $in: `${searchKey}` } }, { fname: `${searchKey}` }],
+      $or: [
+        { emails: { $in: `${searchKey}` } },
+        { fname: `${searchKey}` },
+        { lname: `${searchKey}` },
+        { phones: { $in: `${searchKey}` } },
+      ],
     },
     (err, docs) => {
       if (err) {
