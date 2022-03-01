@@ -1,5 +1,5 @@
 import * as elements from "./elements.js";
-import { addHandler, log } from "./utils.js";
+import { addHandler, log, getAttribute } from "./utils.js";
 import * as wss from "./wss.js";
 
 // init socket connection
@@ -167,4 +167,29 @@ if (document.title.toLowerCase().trim() == "dashboard") {
         : "Show Peers";
     }, 450);
   });
+
+  addHandler(elements.contactDeleteButton, "click", (e) => {
+    const target = e.target;
+    log(`\n\t${target.id || target} clicked`);
+    const attribute = getAttribute(target, "data-rmtId");
+    log(`\n\t${target.id}'s data: ${attribute}`);
+  });
+
+  /*  addHandler(elements.contactEditButton, "click", (e) => {
+    const target = e.target;
+    log(`\n\t${target.id || target} clicked`);
+    const attribute = getAttribute(target, "data-rmtId");
+    log(`\n\t${target.id}'s data: ${attribute}`);
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onload = () => {};
+
+    xhttp.open(
+      "GET",
+      `http://localhost:3000/user/contacts/${attribute.trim()}`
+    );
+
+    xhttp.send();
+  }); */
 }

@@ -4,6 +4,8 @@ import {
   userDashboard,
   addNewContact,
   searchContacts,
+  viewContact,
+  editContact,
 } from "../../controllers/user/index.js";
 import { signedIn } from "../../middleware/AuthMiddleware.js";
 import { lettersOnly } from "../../custom_modules/index.js";
@@ -24,6 +26,11 @@ user
     ],
     addNewContact
   );
+
+user
+  .route("/contacts/:contactId")
+  .get(signedIn, viewContact)
+  .post(signedIn, editContact);
 
 user.route(`/contacts/search`).post(signedIn, searchContacts);
 

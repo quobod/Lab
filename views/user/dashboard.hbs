@@ -41,17 +41,19 @@
                         <div class="card-section">
                             <div class="grid-x grid-padding-x">
                                 <div class="cell small-4">
-                                    <button class="button alert" style="border-radius:15px;">
-                                        <i class="fa-solid fa-trash fa-fw fa-2x"></i>
-                                    </button>
+                                    <a id="contact-delete-button" data-rmtId="{{_id}}" class="button alert"
+                                        style="border-radius:15px;">
+                                        <i data-rmtId="{{_id}}" class="fa-solid fa-trash fa-fw fa-2x"></i>
+                                    </a>
                                 </div>
 
                                 <div class="cell small-4"></div>
 
                                 <div class="cell small-4">
-                                    <button class="button warning" style="border-radius:15px;">
-                                        <i class="fa-solid fa-pencil fa-fw fa-2x"></i>
-                                    </button>
+                                    <a href="/user/contacts/{{_id}}" id="contact-edit-button" data-rmtId="{{_id}}"
+                                        class="button warning" style="border-radius:15px;">
+                                        <i data-rmtId="{{_id}}" class="fa-solid fa-pencil fa-fw fa-2x"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>

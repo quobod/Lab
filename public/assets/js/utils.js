@@ -27,6 +27,13 @@ export const addAttribute = (theElement, whichAttribute, attributeValue) => {
   }
 };
 
+export const getAttribute = (theElement, whichAttribute) => {
+  if (null != theElement && null != whichAttribute) {
+    return theElement.getAttribute(`${whichAttribute}`) || null;
+  }
+  return "Element is null";
+};
+
 export const removeAttribute = (theElement, whichAttribute) => {
   if (null != theElement) {
     if (theElement.hasAttribute(whichAttribute)) {

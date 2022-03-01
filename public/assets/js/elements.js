@@ -28,3 +28,9 @@ export const contactFname = document.querySelector("#contact-fname");
 export const contactLname = document.querySelector("#contact-lname");
 export const contactEmail = document.querySelector("#contact-email");
 export const contactPhone = document.querySelector("#contact-phone");
+
+// Contact
+export const contactEditButton = document.querySelector("#contact-edit-button");
+export const contactDeleteButton = document.querySelector(
+  "#contact-delete-button"
+);

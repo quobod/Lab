@@ -2,7 +2,6 @@ import asyncHandler from "express-async-handler";
 import bunyan from "bunyan";
 import { body, check, validationResult } from "express-validator";
 import { cap, stringify, log } from "../../custom_modules/index.js";
-import User from "../../models/UserModel.js";
 import Contact from "../../models/Contacts.js";
 
 const logger = bunyan.createLogger({ name: "User Controller" });
@@ -181,4 +180,58 @@ export const searchContacts = asyncHandler(async (req, res) => {
       });
     }
   );
+});
+
+//  @desc           View single contact
+//  @route          GET /user/contacts/:contactId
+//  @access         Private
+export const viewContact = asyncHandler(async (req, res) => {
+  logger.info(`GET: /user/contacts/:contactId`);
+
+  const { contactId } = req.params;
+
+  log(`\n\tViewing contact ID: ${contactId}\n`);
+
+  Contact.findOne({ _id: contactId }, (err, doc) => {
+    if (err) {
+      log(err);
+      res.redirect(`/user/dashboard`);
+    } else {
+      log(doc);
+
+      res.render("user/contact", {
+        doc: doc,
+        csrfToken: req.csrfToken,
+        title: doc.fname,
+        user: req.user,
+      });
+    }
+  });
+});
+
+//  @desc           Edit single contact
+//  @route          POST /user/contacts/:contactId
+//  @access         Private
+export const editContact = asyncHandler(async (req, res) => {
+  logger.info(`GET: /user/contacts/:contactId`);
+
+  const { contactId } = req.params;
+
+  log(`\n\tViewing contact ID: ${contactId}\n`);
+
+  /* Contact.findOne({ _id: contactId }, (err, doc) => {
+    if (err) {
+      log(err);
+      res.redirect(`/user/dashboard`);
+    } else {
+      log(doc);
+
+      res.render("user/contact", {
+        doc: doc,
+        csrfToken: req.csrfToken,
+        title: doc.fname,
+      });
+    }
+  }); */
+  res.redirect("/user/dashboard");
 });
