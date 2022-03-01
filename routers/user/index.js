@@ -15,7 +15,7 @@ const user = Router();
 user.route("/dashboard").get(signedIn, userDashboard);
 
 user
-  .route("/contacts")
+  .route("/contacts/add")
   .post(
     signedIn,
     [
@@ -28,7 +28,7 @@ user
   );
 
 user
-  .route("/contacts/:contactId")
+  .route("/contacts/contact/:contactId")
   .get(signedIn, viewContact)
   .post(signedIn, editContact);
 
