@@ -246,7 +246,7 @@ addHandler(elements.addPhoneButton, "click", () => {
   addAttribute(
     phoneInput,
     "name",
-    `email${editContactForm.childNodes.length + 1}`
+    `phone${editContactForm.childNodes.length + 1}`
   );
   addAttribute(trashIcon, "class", "fa-solid fa-trash");
   addAttribute(phoneIcon, "class", "fa-solid fa-phone");
