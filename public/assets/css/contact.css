@@ -28,7 +28,11 @@
 
 #edit-contact-form {
   width: 100%;
-  height: 100%;
+  height: 400px;
   background-color: transparent;
   overflow: scroll;
+}
+
+.fa-trash:hover {
+  cursor: pointer;
 }
