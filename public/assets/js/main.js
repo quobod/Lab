@@ -199,6 +199,7 @@ addHandler(elements.addEmailButton, "click", () => {
   addAttribute(divInputGroup, "class", "input-group");
   addAttribute(spanInputGroupLabel, "class", "input-group-label");
   addAttribute(emailInput, "type", "email");
+  addAttribute(emailInput, "required", "");
   addAttribute(emailInput, "class", "input-group-field");
   addAttribute(
     emailInput,
@@ -242,6 +243,7 @@ addHandler(elements.addPhoneButton, "click", () => {
   addAttribute(divInputGroup, "class", "input-group");
   addAttribute(spanInputGroupLabel, "class", "input-group-label");
   addAttribute(phoneInput, "type", "tel");
+  addAttribute(phoneInput, "required", "");
   addAttribute(phoneInput, "class", "input-group-field");
   addAttribute(
     phoneInput,
