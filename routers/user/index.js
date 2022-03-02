@@ -6,6 +6,7 @@ import {
   searchContacts,
   viewContact,
   editContact,
+  deleteContact,
 } from "../../controllers/user/index.js";
 import { signedIn } from "../../middleware/AuthMiddleware.js";
 import { lettersOnly } from "../../custom_modules/index.js";
@@ -33,5 +34,7 @@ user
   .post(signedIn, editContact);
 
 user.route(`/contacts/search`).post(signedIn, searchContacts);
+
+user.route("/contacts/contact/delete/:contactId").get(deleteContact);
 
 export default user;

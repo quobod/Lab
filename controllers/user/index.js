@@ -235,3 +235,26 @@ export const editContact = asyncHandler(async (req, res) => {
   }); */
   res.redirect("/user/dashboard");
 });
+
+//  @desc           Delete single contact
+//  @route          GET /user/contacts/contact/delete/:contactId
+//  @access         Private
+export const deleteContact = asyncHandler(async (req, res) => {
+  logger.info(`GET: /user/contacts/contact/delete/:contactId`);
+
+  const { contactId } = req.params;
+
+  log(`\n\tDeleting contact ID: ${contactId}\n`);
+
+  Contact.deleteOne({ _id: `${contactId}` }, (err, results) => {
+    if (err) {
+      log(`\n\tError deleting document: ${contactId}`);
+      log(err);
+      log(`\n`);
+    }
+
+    log(`\n\tDelete Results`);
+    log(results);
+    res.redirect("/user/dashboard");
+  });
+});
