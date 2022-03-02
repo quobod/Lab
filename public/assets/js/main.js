@@ -87,51 +87,13 @@ addHandler(elements.hideCheckbox, "click", (e) => {
 
 if (document.title.toLowerCase().trim() == "dashboard") {
   addHandler(elements.newContactLink, "click", () => {
-    if (elements.controlPanel.classList.contains("show")) {
-      elements.controlPanel.classList.remove("show");
-      setTimeout(() => {
-        elements.controlPanelLink.innerHTML =
-          elements.controlPanel.classList.contains("show")
-            ? "Hide Control Panel"
-            : "Show Control Panel";
-      }, 450);
-    }
-
-    if (elements.peersList.classList.contains("show")) {
-      elements.peersList.classList.remove("show");
-      setTimeout(() => {
-        elements.peersLink.innerHTML = elements.peersList.classList.contains(
-          "show"
-        )
-          ? "Hide Peers"
-          : "Show Peers";
-      }, 450);
-    }
+    prepareNewContactLink();
 
     elements.newContactForm.classList.toggle("show");
   });
 
   addHandler(elements.controlPanelLink, "click", () => {
-    if (elements.newContactForm.classList.contains("show")) {
-      elements.newContactForm.classList.remove("show");
-      setTimeout(() => {
-        elements.controlPanelLink.innerHTML =
-          elements.newContactForm.classList.contains("show")
-            ? "Hide Contact Panel"
-            : "Show Contact Panel";
-      }, 450);
-    }
-
-    if (elements.peersList.classList.contains("show")) {
-      elements.peersList.classList.remove("show");
-      setTimeout(() => {
-        elements.peersLink.innerHTML = elements.peersList.classList.contains(
-          "show"
-        )
-          ? "Hide Peers"
-          : "Show Peers";
-      }, 450);
-    }
+    prepareControlPanelLink();
 
     elements.controlPanel.classList.toggle("show");
     setTimeout(() => {
@@ -145,25 +107,7 @@ if (document.title.toLowerCase().trim() == "dashboard") {
   addHandler(elements.peersLink, "click", () => {
     log(`\n\tPeers link clicked\n`);
 
-    if (elements.newContactForm.classList.contains("show")) {
-      elements.newContactForm.classList.remove("show");
-      setTimeout(() => {
-        elements.controlPanelLink.innerHTML =
-          elements.newContactForm.classList.contains("show")
-            ? "Hide Contact Panel"
-            : "Show Contact Panel";
-      }, 450);
-    }
-
-    if (elements.controlPanel.classList.contains("show")) {
-      elements.controlPanel.classList.remove("show");
-      setTimeout(() => {
-        elements.controlPanelLink.innerHTML =
-          elements.controlPanel.classList.contains("show")
-            ? "Hide Control Panel"
-            : "Show Control Panel";
-      }, 450);
-    }
+    preparePeersLinkDropdown();
 
     elements.peersList.classList.toggle("show");
     setTimeout(() => {
@@ -270,3 +214,72 @@ addHandler(elements.addPhoneButton, "click", () => {
     divInputGroup.remove();
   });
 });
+
+// Helper functions
+function prepareNewContactLink() {
+  if (elements.controlPanel.classList.contains("show")) {
+    elements.controlPanel.classList.remove("show");
+    setTimeout(() => {
+      elements.controlPanelLink.innerHTML =
+        elements.controlPanel.classList.contains("show")
+          ? "Hide Control Panel"
+          : "Show Control Panel";
+    }, 450);
+  }
+
+  if (elements.peersList.classList.contains("show")) {
+    elements.peersList.classList.remove("show");
+    setTimeout(() => {
+      elements.peersLink.innerHTML = elements.peersList.classList.contains(
+        "show"
+      )
+        ? "Hide Peers"
+        : "Show Peers";
+    }, 450);
+  }
+}
+
+function prepareControlPanelLink() {
+  if (elements.newContactForm.classList.contains("show")) {
+    elements.newContactForm.classList.remove("show");
+    setTimeout(() => {
+      elements.controlPanelLink.innerHTML =
+        elements.newContactForm.classList.contains("show")
+          ? "Hide Contact Panel"
+          : "Show Contact Panel";
+    }, 450);
+  }
+
+  if (elements.peersList.classList.contains("show")) {
+    elements.peersList.classList.remove("show");
+    setTimeout(() => {
+      elements.peersLink.innerHTML = elements.peersList.classList.contains(
+        "show"
+      )
+        ? "Hide Peers"
+        : "Show Peers";
+    }, 450);
+  }
+}
+
+function preparePeersLinkDropdown() {
+  if (elements.newContactForm.classList.contains("show")) {
+    elements.newContactForm.classList.remove("show");
+    setTimeout(() => {
+      elements.controlPanelLink.innerHTML =
+        elements.newContactForm.classList.contains("show")
+          ? "Hide Contact Panel"
+          : "Show Contact Panel";
+    }, 450);
+  }
+
+  if (elements.controlPanel.classList.contains("show")) {
+    elements.controlPanel.classList.remove("show");
+    setTimeout(() => {
+      elements.controlPanelLink.innerHTML =
+        elements.controlPanel.classList.contains("show")
+          ? "Hide Control Panel"
+          : "Show Control Panel";
+    }, 450);
+  }
+}
