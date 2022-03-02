@@ -118,13 +118,6 @@ if (document.title.toLowerCase().trim() == "dashboard") {
         : "Show Peers";
     }, 450);
   });
-
-  addHandler(elements.contactDeleteButton, "click", (e) => {
-    const target = e.target;
-    log(`\n\t${target.id || target} clicked`);
-    const attribute = getAttribute(target, "data-rmtId");
-    log(`\n\t${target.id}'s data: ${attribute}`);
-  });
 }
 
 addHandler(elements.addEmailButton, "click", () => {
