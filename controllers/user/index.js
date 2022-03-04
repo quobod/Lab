@@ -210,30 +210,66 @@ export const viewContact = asyncHandler(async (req, res) => {
 });
 
 //  @desc           Edit single contact
-//  @route          POST /user/contacts/:contactId
+//  @route          POST /user/contacts/contact/:contactId
 //  @access         Private
 export const editContact = asyncHandler(async (req, res) => {
-  logger.info(`GET: /user/contacts/:contactId`);
+  logger.info(`GET: /user/contacts/contact/:contactId`);
+  log(`\n\tEditing contact\n`);
 
-  const { contactId } = req.params;
+  const data = req.body;
+  const rmtid = data.rmtid;
+  let emails = [],
+    phones = [],
+    fname = "",
+    lname = "";
 
-  log(`\n\tViewing contact ID: ${contactId}\n`);
+  log(`\n\n`);
 
-  /* Contact.findOne({ _id: contactId }, (err, doc) => {
-    if (err) {
-      log(err);
-      res.redirect(`/user/dashboard`);
+  for (const d in data) {
+    const objD = data[d];
+    if (d.toLowerCase().trim().startsWith("email")) {
+      emails.push(objD);
+    } else if (d.toLowerCase().trim().startsWith("phone")) {
+      phones.push(objD);
+    } else if (d.toLowerCase().trim() === "fname") {
+      fname = objD;
     } else {
-      log(doc);
-
-      res.render("user/contact", {
-        doc: doc,
-        csrfToken: req.csrfToken,
-        title: doc.fname,
-      });
+      lname = objD;
     }
-  }); */
-  res.redirect("/user/dashboard");
+  }
+
+  const updatedData = {
+    fname,
+    lname,
+    emails,
+    phones,
+  };
+
+  log(`\n\t\tSubmitted Data`);
+  log(updatedData);
+  log(`\n\n`);
+
+  const updateOptions = {
+    upsert: true,
+    new: true,
+    overwrite: false,
+  };
+
+  Contact.findOneAndUpdate(
+    { _id: `${rmtid}` },
+    updatedData,
+    updateOptions,
+    (err, doc) => {
+      if (err) {
+        log(`\n\n\t\tError`);
+        log(err);
+      }
+
+      log(`\n\tUpdated Document`);
+      log(doc);
+      res.redirect("/user/dashboard");
+    }
+  );
 });
 
 //  @desc           Delete single contact

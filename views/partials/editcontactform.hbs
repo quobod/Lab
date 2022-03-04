@@ -27,8 +27,12 @@
             <f class="fa-solid fa-phone"></f>
         </span>
 
-        <input type="tel" name="email{{val}}" value="{{key}}" class="input-group-field">
+        <input type="tel" name="phone{{val}}" value="{{key}}" class="input-group-field">
     </div>
     {{/each}}
 
+    <input type="hidden" name="rmtid" value="{{doc._id}}">
+    <div class="input-group-button">
+        <input type="submit" class="button" value="Submit">
+    </div>
 </form>
