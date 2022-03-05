@@ -35,6 +35,6 @@ user
 
 user.route(`/contacts/search`).post(signedIn, searchContacts);
 
-user.route("/contacts/contact/delete/:contactId").get(deleteContact);
+user.route("/contacts/contact/delete/:contactId").get(signedIn, deleteContact);
 
 export default user;
