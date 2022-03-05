@@ -6,6 +6,7 @@ import {
   newElement,
   appendChild,
   addAttribute,
+  appendBeforeLastChild,
 } from "./utils.js";
 import * as wss from "./wss.js";
 
@@ -141,7 +142,7 @@ addHandler(elements.addEmailButton, "click", () => {
   addAttribute(
     emailInput,
     "name",
-    `email${editContactForm.childNodes.length + 1}`
+    `email${editContactForm.children.length + 1}`
   );
   addAttribute(trashIcon, "class", "fa-solid fa-trash");
   addAttribute(emailIcon, "class", "fa-solid fa-envelope");
@@ -151,7 +152,7 @@ addHandler(elements.addEmailButton, "click", () => {
   // spanInputGroupLabel.innerHTML = `<i class="fa-solid fa-envelope"></i>`;
 
   // Append to document
-  appendChild(editContactForm, divGroup);
+  appendBeforeLastChild(editContactForm, divGroup);
   appendChild(divGroup, divInputGroup);
   appendChild(divInputGroup, spanInputGroupLabel);
   appendChild(divInputGroup, emailInput);
@@ -185,7 +186,7 @@ addHandler(elements.addPhoneButton, "click", () => {
   addAttribute(
     phoneInput,
     "name",
-    `phone${editContactForm.childNodes.length + 1}`
+    `phone${editContactForm.children.length + 1}`
   );
   addAttribute(trashIcon, "class", "fa-solid fa-trash");
   addAttribute(phoneIcon, "class", "fa-solid fa-phone");
@@ -195,7 +196,7 @@ addHandler(elements.addPhoneButton, "click", () => {
   // spanInputGroupLabel.innerHTML = `<i class="fa-solid fa-envelope"></i>`;
 
   // Append to document
-  appendChild(editContactForm, divGroup);
+  appendBeforeLastChild(editContactForm, divGroup);
   appendChild(divGroup, divInputGroup);
   appendChild(divInputGroup, spanInputGroupLabel);
   appendChild(divInputGroup, phoneInput);

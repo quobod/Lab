@@ -21,6 +21,7 @@ export const userDashboard = asyncHandler(async (req, res) => {
     console.log(`\n\n`);
 
     Contact.find()
+      .sort({ fname: "asc" })
       .where("owner")
       .equals(`${user._id}`)
       .exec((err, docs) => {
@@ -220,8 +221,8 @@ export const editContact = asyncHandler(async (req, res) => {
   const rmtid = data.rmtid;
   let emails = [],
     phones = [],
-    fname = "",
-    lname = "";
+    fname,
+    lname;
 
   log(`\n\n`);
 
@@ -239,6 +240,7 @@ export const editContact = asyncHandler(async (req, res) => {
   }
 
   const updatedData = {
+    _id: rmtid,
     fname,
     lname,
     emails,

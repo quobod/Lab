@@ -134,6 +134,14 @@ export const appendChild = (parent, child) => {
   }
 };
 
+export const appendBeforeLastChild = (parent, child) => {
+  if (null != parent && null != child) {
+    const lastChildIndex = parent.children.length - 1;
+    const lastChild = parent.children[lastChildIndex];
+    parent.insertBefore(child, lastChild);
+  }
+};
+
 export const append = (parent, child) => {
   parent.append(child);
 };
@@ -142,6 +150,20 @@ export const removeChildren = (parent) => {
   parent.querySelectorAll("*").forEach((dialog) => {
     dialog.remove();
   });
+};
+
+export const countChildren = (parent) => {
+  if (null != parent) {
+    return parent.children.length;
+  }
+  return null;
+};
+
+export const getLastChild = (parent) => {
+  if (null != parent) {
+    return parent.lastElementChild;
+  }
+  return null;
 };
 
 export const newElement = (type) => {
