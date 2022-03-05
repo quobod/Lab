@@ -219,10 +219,11 @@ export const editContact = asyncHandler(async (req, res) => {
 
   const data = req.body;
   const rmtid = data.rmtid;
+  const fname = data.fname;
+  const lname = data.lname;
+
   let emails = [],
-    phones = [],
-    fname,
-    lname;
+    phones = [];
 
   log(`\n\n`);
 
@@ -232,19 +233,14 @@ export const editContact = asyncHandler(async (req, res) => {
       emails.push(objD);
     } else if (d.toLowerCase().trim().startsWith("phone")) {
       phones.push(objD);
-    } else if (d.toLowerCase().trim() === "fname") {
-      fname = objD;
-    } else {
-      lname = objD;
     }
   }
 
   const updatedData = {
-    _id: rmtid,
-    fname,
-    lname,
-    emails,
-    phones,
+    fname: fname,
+    lname: lname,
+    emails: emails,
+    phones: phones,
   };
 
   log(`\n\t\tSubmitted Data`);
