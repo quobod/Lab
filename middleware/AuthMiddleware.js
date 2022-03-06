@@ -31,9 +31,7 @@ export const protect = asyncHandler(async (req, res, next) => {
 });
 
 export const signedIn = asyncHandler(async (req, res, next) => {
-  const user = req.user || null;
-
-  if (user) {
+  if (req.isAuthenticated()) {
     next();
   } else {
     res.redirect("/");
@@ -41,21 +39,25 @@ export const signedIn = asyncHandler(async (req, res, next) => {
 });
 
 export const signedOut = asyncHandler(async (req, res, next) => {
-  const user = req.user || null;
-  if (user) {
+  if (req.isAuthenticated()) {
     res.redirect("/user/dashboard");
   } else {
     next();
   }
 });
 
-export const reauthenticate = asyncHandler(async (req, res, next) => {
-  const user = req.user || null;
-  if (user) {
-    if (req.isAuthenticated()) {
-      next();
+export const reauthorize = asyncHandler(async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    console.log(`\n\tUser authenticated: ${req.isAuthenticated()}\n`);
+    const user = req.user.withoutPassword();
+
+    if (!user.reauthenticated) {
+      res.render("auth/signin", {
+        title: "Signin",
+        reauthenticate: true,
+      });
     } else {
-      res.redirect("/auth/signin");
+      next();
     }
   } else {
     res.redirect("/auth/signin");

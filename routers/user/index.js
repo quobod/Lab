@@ -8,8 +8,10 @@ import {
   editContact,
   deleteContact,
   viewUserProfile,
+  userReauth,
+  updateUserProfile,
 } from "../../controllers/user/index.js";
-import { reauthenticate, signedIn } from "../../middleware/AuthMiddleware.js";
+import { signedIn, reauthorize } from "../../middleware/AuthMiddleware.js";
 import { lettersOnly } from "../../custom_modules/index.js";
 
 const user = Router();
@@ -38,6 +40,8 @@ user.route(`/contacts/search`).post(signedIn, searchContacts);
 
 user.route("/contacts/contact/delete/:contactId").get(signedIn, deleteContact);
 
-user.route("/profile").get(reauthenticate, viewUserProfile);
+user.route("/profile").get(reauthorize, viewUserProfile).post(userReauth);
+
+user.route("/profile/update").post(updateUserProfile);
 
 export default user;

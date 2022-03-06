@@ -153,7 +153,7 @@ app.get("/api/get-turn-credentials", (req, res) => {
     });
 });
 
-app.get(["/auth/*", "/user/dashboard"], csrfProtection, (req, res, next) => {
+app.get(["/*"], csrfProtection, (req, res, next) => {
   next();
 });
 

@@ -3,6 +3,7 @@ import bunyan from "bunyan";
 import { body, check, validationResult } from "express-validator";
 import { cap, stringify, log } from "../../custom_modules/index.js";
 import Contact from "../../models/Contacts.js";
+import User from "../../models/UserModel.js";
 
 const logger = bunyan.createLogger({ name: "User Controller" });
 
@@ -301,8 +302,70 @@ export const viewUserProfile = asyncHandler(async (req, res) => {
   const user = req.user.withoutPassword() || null;
 
   if (user) {
-    res.render("user/profile", { title: user.fname, user });
+    res.render("user/profile", {
+      title: `Profile`,
+      user,
+      csrfToken: req.csrfToken,
+    });
   } else {
     res.redirect("/auth/signin");
   }
+});
+
+//  @desc           Reauthenticate User
+//  @route          POST /user/reauth
+//  @access         Private
+export const userReauth = asyncHandler(async (req, res) => {
+  logger.info(`POST: /user/reauth`);
+
+  const oUser = req.user;
+  const { email, pwd } = req.body;
+  console.log(
+    `\n\tRe-authentication Data\n\t\tEmail: ${email}, Password: ${pwd}\n`
+  );
+
+  const matched = await oUser.matchPassword(pwd);
+
+  console.log(matched);
+
+  if (matched) {
+    req.user.reauthenticated = true;
+    res.render("user/profile", {
+      title: `Profile`,
+      user: oUser,
+      csrfToken: req.csrfToken,
+    });
+  } else {
+    res.redirect("/user/dashboard");
+  }
+});
+
+//  @desc           Update User Profile
+//  @route          POST /user/profile/update
+//  @access         Private
+export const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = req.user.withoutPassword();
+  const data = req.body;
+  const updatedData = {
+    fname: data.fname,
+    lname: data.lname,
+    email: data.email,
+  };
+
+  if (data.uname) {
+    updatedData.uname = data.uname;
+  }
+
+  console.log(`\n\tUpdated Profile Data`);
+  console.log(updatedData);
+  console.log(`\n`);
+
+  User.findByIdAndUpdate(user._id, updatedData, (err, user) => {
+    if (err) {
+      console.log(`\n\t\tUser update error`);
+      console.log(err);
+    }
+
+    res.redirect("/user/dashboard");
+  });
 });
