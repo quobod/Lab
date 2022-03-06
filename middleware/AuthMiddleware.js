@@ -51,14 +51,10 @@ export const reauthorize = asyncHandler(async (req, res, next) => {
     console.log(`\n\tUser authenticated: ${req.isAuthenticated()}\n`);
     const user = req.user.withoutPassword();
 
-    if (!user.reauthenticated) {
-      res.render("auth/signin", {
-        title: "Signin",
-        reauthenticate: true,
-      });
-    } else {
-      next();
-    }
+    res.render("auth/signin", {
+      title: "Signin",
+      reauthenticate: true,
+    });
   } else {
     res.redirect("/auth/signin");
   }

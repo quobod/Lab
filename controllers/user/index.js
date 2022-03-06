@@ -326,13 +326,10 @@ export const userReauth = asyncHandler(async (req, res) => {
 
   const matched = await oUser.matchPassword(pwd);
 
-  console.log(matched);
-
   if (matched) {
-    req.user.reauthenticated = true;
     res.render("user/profile", {
       title: `Profile`,
-      user: oUser,
+      user: req.user,
       csrfToken: req.csrfToken,
     });
   } else {
