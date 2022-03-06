@@ -90,13 +90,17 @@ export const registerUser = (req, res) => {
                   console.log(err);
                   res.redirect("/auth/register");
                 });
+            } else {
+              const { error } = results;
+              console.log(`\n\tHash Error\n\t\t${error}\n`);
+              res.redirect("/user/dashboard");
             }
           });
         }
       })
       .catch((err) => {
         console.log(err);
-        res.status(200).json({ error: err });
+        res.redirect("/user/dashboard");
       });
   }
 };
