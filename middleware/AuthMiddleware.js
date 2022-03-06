@@ -54,6 +54,7 @@ export const reauthorize = asyncHandler(async (req, res, next) => {
     res.render("auth/signin", {
       title: "Signin",
       reauthenticate: true,
+      user: req.user.withoutPassword(),
     });
   } else {
     res.redirect("/auth/signin");
