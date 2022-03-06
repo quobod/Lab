@@ -3,7 +3,7 @@ import bunyan from "bunyan";
 import passport from "passport";
 import { body, check, validationResult } from "express-validator";
 import User from "../../models/UserModel.js";
-import { stringify, parse } from "../../custom_modules/index.js";
+import { stringify, parse, createHash } from "../../custom_modules/index.js";
 
 const logger = bunyan.createLogger({ name: "Auth Controller" });
 
@@ -68,20 +68,30 @@ export const registerUser = (req, res) => {
         if (user == null) {
           const newUser = new User({
             email,
-            password: pwd,
             fname,
             lname,
           });
 
-          newUser
-            .save()
-            .then((doc) => {
-              res.redirect("/auth/signin");
-            })
-            .catch((err) => {
-              console.log(err);
-              res.redirect("/auth/register");
-            });
+          createHash(pwd, (results) => {
+            if (results.status) {
+              const { original, payload } = results;
+
+              console.log(
+                `\n\tHash Successful\n\t\tOriginal: ${original}\n\t\tPayload: ${payload}`
+              );
+
+              newUser.password = payload;
+              newUser
+                .save()
+                .then((doc) => {
+                  res.redirect("/auth/signin");
+                })
+                .catch((err) => {
+                  console.log(err);
+                  res.redirect("/auth/register");
+                });
+            }
+          });
         }
       })
       .catch((err) => {
@@ -142,4 +152,71 @@ export const userSignout = asyncHandler(async (req, res) => {
   req.logout();
   delete req["user"];
   res.redirect("/");
+});
+
+// @desc        User Reauthenticate
+// @route       GET /auth/reauthenticate
+// @access      Private
+export const userReauthenticate = asyncHandler(async (req, res) => {
+  logger.info(`GET: /auth/reauthenticate`);
+
+  try {
+    res.render("auth/signin", {
+      title: "Signin",
+      csrfToken: req.csrfToken,
+      reauthenticate: true,
+    });
+  } catch (err) {
+    logger.error(err);
+    res.status(500).json({
+      status: "failure",
+      message: err.message,
+      cause: err.stackTrace,
+    });
+  }
+});
+
+// @desc        User Reauthenticate
+// @route       POST /auth/reauthenticate
+// @access      Private
+export const userReauthenticateSubmission = asyncHandler(async (req, res) => {
+  logger.info(`POST: /auth/userReauthenticateSubmission`);
+
+  const { email, pwd } = req.body;
+  const user = req.user;
+
+  console.log(
+    `\n\tRe-authenticated Form Data\n\t\tEmail: ${email}\tPassword: ${pwd}\n\n`
+  );
+
+  if (user) {
+    User.findById(user._id, (err, user) => {
+      if (err) {
+        console.log(`\n\tRe-authentication Error`);
+        console.log("\t" + err);
+        console.log(`\n\n`);
+        return res.redirect("/user/dashboard");
+      }
+
+      user
+        .matchPassword(pwd)
+        .then((results) => {
+          console.log(`Password Matched: ${results}`);
+          if (results) {
+            return res.render("user/profile", { title: user.fname, user });
+          } else {
+            return res.redirect("/user/dashboard");
+          }
+        })
+        .catch((err) => {
+          console.log(`\n\t\tUser matchPassword Error`);
+          console.log(err);
+          console.log(`\n\n`);
+
+          res.redirect("/user/dashboard");
+        });
+    });
+  } else {
+    res.redirect("/auth/signin");
+  }
 });

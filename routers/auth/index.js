@@ -4,10 +4,13 @@ import { body, check, validationResult } from "express-validator";
 import {
   registerUser,
   signinUser,
+  userReauthenticate,
+  userReauthenticateSubmission,
   userRegister,
   userSignin,
   userSignout,
 } from "../../controllers/auth/index.js";
+import { reauthenticate, signedIn } from "../../middleware/AuthMiddleware.js";
 
 const auth = Router();
 
@@ -35,5 +38,17 @@ auth
   );
 
 auth.route("/signout").get(userSignout);
+
+auth
+  .route("/reauthenticate")
+  .get(reauthenticate, userReauthenticate)
+  .post(
+    [
+      body("email").isEmail().withMessage("Must provide a valid email"),
+      body("pwd").notEmpty().withMessage("Must enter a password"),
+    ],
+    signedIn,
+    userReauthenticateSubmission
+  );
 
 export default auth;

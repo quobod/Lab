@@ -1,5 +1,6 @@
 <div class="grid-container form-container" style="margin:5% auto 5% auto;">
-    <form id="signin-form" action="/auth/signin" method="post" class="grid-x grid-margin-y">
+    <form id="signin-form" action={{#if reauthenticate}} "/auth/reauthenticate" {{else}}"/auth/signin"{{/if}}
+        method="post" class="grid-x grid-margin-y">
         <div class="cell small-12">
             <input type="email" name="email" id="signin-email" class="input-control" placeholder="Email" required />
         </div>

@@ -74,3 +74,7 @@ export const cap = (arg) => {
     }
   }
 };
+
+export const stripTags = (input) => {
+  return input.replace(/<(?:.|\n)*?>/gm, "");
+};

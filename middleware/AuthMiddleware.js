@@ -48,3 +48,16 @@ export const signedOut = asyncHandler(async (req, res, next) => {
     next();
   }
 });
+
+export const reauthenticate = asyncHandler(async (req, res, next) => {
+  const user = req.user || null;
+  if (user) {
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      res.redirect("/auth/signin");
+    }
+  } else {
+    res.redirect("/auth/signin");
+  }
+});

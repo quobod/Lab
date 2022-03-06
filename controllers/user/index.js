@@ -292,3 +292,17 @@ export const deleteContact = asyncHandler(async (req, res) => {
     res.redirect("/user/dashboard");
   });
 });
+
+//  @desc           View user's profile
+//  @route          GET /user/profile
+//  @access         Private
+export const viewUserProfile = asyncHandler(async (req, res) => {
+  logger.info(`GET: /user/profile`);
+  const user = req.user.withoutPassword() || null;
+
+  if (user) {
+    res.render("user/profile", { title: user.fname, user });
+  } else {
+    res.redirect("/auth/signin");
+  }
+});

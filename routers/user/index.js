@@ -7,8 +7,9 @@ import {
   viewContact,
   editContact,
   deleteContact,
+  viewUserProfile,
 } from "../../controllers/user/index.js";
-import { signedIn } from "../../middleware/AuthMiddleware.js";
+import { reauthenticate, signedIn } from "../../middleware/AuthMiddleware.js";
 import { lettersOnly } from "../../custom_modules/index.js";
 
 const user = Router();
@@ -36,5 +37,7 @@ user
 user.route(`/contacts/search`).post(signedIn, searchContacts);
 
 user.route("/contacts/contact/delete/:contactId").get(signedIn, deleteContact);
+
+user.route("/profile").get(reauthenticate, viewUserProfile);
 
 export default user;

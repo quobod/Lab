@@ -11,6 +11,7 @@ import {
 } from "./messages.js";
 import { error, log, cls, table } from "./printer.js";
 import { parse, stringify, keys, cap } from "./utils.js";
+import { createHash } from "./hasher.js";
 import * as userManager from "./usermanager.js";
 import {
   alphanumeric,
@@ -18,6 +19,7 @@ import {
   integersOnly,
   lettersOnly,
 } from "./regex.js";
+import { dateStamp, timeStamp, dtStamp } from "./datetimestamps.js";
 
 export {
   errorMessage,
@@ -42,4 +44,8 @@ export {
   decimalsOnly,
   integersOnly,
   lettersOnly,
+  createHash,
+  dateStamp,
+  timeStamp,
+  dtStamp,
 };
