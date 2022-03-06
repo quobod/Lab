@@ -37,3 +37,6 @@ export const contactDeleteButton = document.querySelector(
 export const editContactForm = document.querySelector("#edit-contact-form");
 export const addEmailButton = document.querySelector("#add-email");
 export const addPhoneButton = document.querySelector("#add-phone");
+
+// Profile
+export const editProfileForm = document.querySelector("#edit-profile-form");
