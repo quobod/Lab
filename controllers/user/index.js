@@ -36,6 +36,7 @@ export const userDashboard = asyncHandler(async (req, res) => {
           csrfToken: req.csrfToken,
           hasContacts: docs.length > 0,
           contacts: docs,
+          dashboard: true,
         });
       });
   } catch (err) {
@@ -206,6 +207,7 @@ export const viewContact = asyncHandler(async (req, res) => {
         csrfToken: req.csrfToken,
         title: doc.fname,
         user: req.user,
+        singlecontact: true,
       });
     }
   });
@@ -331,6 +333,7 @@ export const userReauth = asyncHandler(async (req, res) => {
       title: `Profile`,
       user: req.user,
       csrfToken: req.csrfToken,
+      profile: true,
     });
   } else {
     res.redirect("/user/dashboard");
