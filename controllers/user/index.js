@@ -83,6 +83,7 @@ export const addNewContact = asyncHandler(async (req, res) => {
       error: true,
       errors: arrResult,
       csrfToken: req.csrfToken,
+      dashboard: true,
     });
   } else {
     const { email, phone, fname, lname } = req.body;
@@ -180,6 +181,7 @@ export const searchContacts = asyncHandler(async (req, res) => {
         csrfToken: req.csrfToken,
         hasContacts: docs.length > 0,
         contacts: docs,
+        dashboard: true,
       });
     }
   );
@@ -308,6 +310,7 @@ export const viewUserProfile = asyncHandler(async (req, res) => {
       title: `Profile`,
       user,
       csrfToken: req.csrfToken,
+      profile: true,
     });
   } else {
     res.redirect("/auth/signin");
