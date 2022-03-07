@@ -158,3 +158,48 @@ export const userSignout = asyncHandler(async (req, res) => {
   delete req["user"];
   res.redirect("/");
 });
+
+// @desc        Register user
+// @route       POST /auth/register
+// @access      Public
+export const userRegistration = (req, res, next) => {
+  logger.info(`Post: /auth/register`);
+
+  const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {
+    // Build your resulting errors however you want! String, object, whatever - it works!
+    return `${location}[${param}]: ${msg}`;
+  };
+
+  const result = validationResult(req).formatWith(errorFormatter);
+  if (!result.isEmpty()) {
+    // logger.error(`Registration Failure: ${JSON.stringify(result.array())}`);
+
+    const err = result.array();
+    const arrResult = [];
+
+    for (const e in err) {
+      const objE = err[e];
+      const arrObjE = objE.split(":");
+      const head = arrObjE[0];
+      const value = arrObjE[1];
+      const key = head.replace("body", "").replace("[", "").replace("]", "");
+      const newObj = {};
+      newObj[`${key}`] = value;
+      arrResult.push(newObj);
+    }
+
+    console.log(`${stringify(arrResult)}\n`);
+
+    return res.status(200).render("auth/register", {
+      title: "Error",
+      error: true,
+      errors: arrResult,
+    });
+  } else {
+    passport.authenticate("local-register", {
+      successRedirect: "/user/dashboard",
+      failureRedirect: "/auth/signin",
+      failureFlash: false,
+    })(req, res, next);
+  }
+};

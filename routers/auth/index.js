@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { body, check, validationResult } from "express-validator";
 import {
-  registerUser,
+  userRegistration,
   signinUser,
   userRegister,
   userSignin,
@@ -31,7 +31,7 @@ auth
       body("fname").notEmpty().withMessage("Must provide a first name"),
       body("lname").notEmpty().withMessage("Must provide a last name"),
     ],
-    registerUser
+    userRegistration
   );
 
 auth.route("/signout").get(userSignout);
