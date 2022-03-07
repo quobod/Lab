@@ -198,7 +198,7 @@ export const userRegistration = (req, res, next) => {
   } else {
     passport.authenticate("local-register", {
       successRedirect: "/user/dashboard",
-      failureRedirect: "/auth/signin",
+      failureRedirect: "/auth/register",
       failureFlash: false,
     })(req, res, next);
   }
