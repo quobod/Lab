@@ -20,7 +20,7 @@ export const signinUser = asyncHandler(async (req, res, next) => {
   passport.authenticate("local", {
     successRedirect: "/user/dashboard",
     failureRedirect: "/auth/signin",
-    failureFlash: false,
+    failureFlash: true,
   })(req, res, next);
 });
 

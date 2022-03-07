@@ -15,6 +15,7 @@ import expressHandlebars from "express-handlebars";
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 import { customAlphabet } from "nanoid";
 import csurf from "csurf";
+import flash from "connect-flash";
 import axios from "axios";
 import { fs } from "mz";
 import connectDB from "./config/db.js";
@@ -132,6 +133,19 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization, Content-Length, X-Requested-With, *"
   );
+  next();
+});
+
+// Connect flash
+app.use(flash());
+
+// Global variables
+app.use(function (req, res, next) {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.warning_msg = req.flash("warning_msg");
+  res.locals.info_msg = req.flash("info_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
   next();
 });
 

@@ -40,3 +40,6 @@ export const addPhoneButton = document.querySelector("#add-phone");
 
 // Profile
 export const editProfileForm = document.querySelector("#edit-profile-form");
+
+// Messages
+export const closeButton = document.querySelector(".close-button");

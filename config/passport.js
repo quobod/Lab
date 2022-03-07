@@ -3,7 +3,6 @@ import User from "../models/UserModel.js";
 import { createHash } from "../custom_modules/index.js";
 
 const passportConfig = (passport) => {
-  console.log(`\n\thah`);
   passport.use(
     new Strategy(
       {
@@ -22,6 +21,7 @@ const passportConfig = (passport) => {
 
             // Match Password
             if (user.matchPassword(password)) {
+              req.flash("success_msg", "You're signed in");
               return done(null, user);
             } else {
               return done(null, false, { message: "Invalid credentials" });

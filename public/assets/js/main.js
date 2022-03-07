@@ -277,3 +277,11 @@ function preparePeersLinkDropdown() {
     }, 450);
   }
 }
+
+// Messages
+addHandler(elements.closeButton, "click", (e) => {
+  const target = e.target;
+  const parent = target.parentElement;
+  const grandParent = parent.parentElement;
+  grandParent.remove();
+});
