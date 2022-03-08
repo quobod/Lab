@@ -87,27 +87,8 @@ app.engine(
     extname: ".hbs",
   })
 );
-//app.set('views', path.join(__dirname, 'views'));
+
 app.set("view engine", ".hbs");
-
-/* app.engine(
-  "handlebars",
-  expressHandlebars({
-    handlebars: allowInsecurePrototypeAccess(Handlebars),
-  })
-);
-app.set("view engine", "handlebars"); */
-
-/* app.engine("hbs", engine());
-app.set("view engine", "hbs");
-app.engine(
-  "hbs",
-  engine({
-    defaultLayout: "layout",
-    partials: "partials",
-    extname: ".hbs",
-  })
-); */
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
