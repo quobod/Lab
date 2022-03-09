@@ -2,7 +2,7 @@
 export const rmtUser = document.querySelector("#rmtuser");
 
 // Personal Code
-export const personalCode = document.querySelector(".dashboard-personal-code");
+export const personalCode = document.querySelector("#personal-code");
 
 // Dialog
 export const dialog = document.querySelector("#dialog");

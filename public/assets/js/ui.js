@@ -61,5 +61,5 @@ export const updateUserList = (data) => {
 };
 
 export const updatePersonalCode = (personalCode) => {
-  elements.personalCode.innerHTML = personalCode;
+  elements.personalCode.value = personalCode;
 };

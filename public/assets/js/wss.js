@@ -32,3 +32,10 @@ export const registerSocketEvents = (socket) => {
     }, 1200);
   }
 };
+
+export const hideMe = (data = null) => {
+  console.log(`\n\thideMe method invoked\n`);
+  if (data) {
+    socketIO.emit("changevisibility", data);
+  }
+};

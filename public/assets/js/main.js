@@ -79,11 +79,13 @@ addHandler(elements.contactPhone, "keyup", (e) => {
 
 addHandler(elements.hideCheckbox, "click", (e) => {
   const target = e.target;
+  const socketId = elements.personalCode.value;
   if (target.checked) {
     log(`\n\tHide checkbox is checked`);
   } else {
     log(`\n\tHide checkbox is unchecked`);
   }
+  wss.hideMe({ userId: socketId, show: target.checked });
 });
 
 if (document.title.toLowerCase().trim() == "dashboard") {
