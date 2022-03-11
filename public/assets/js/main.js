@@ -18,9 +18,11 @@ const start = () => {
   console.log(`\n\t\tLanded on the dashboard view\n`);
 };
 
-window.onload = () => {
+start();
+
+/* window.onload = () => {
   start();
-};
+}; */
 
 addHandler(elements.showPresenceInput, "click", (e) => {
   const target = e.target;
@@ -53,7 +55,7 @@ addHandler(elements.contactEmail, "keyup", (e) => {
 addHandler(elements.contactFname, "keyup", (e) => {
   const element = e.target;
   const value = e.target.value;
-  const text = value.replace(/[^a-zA-Z\.0-9]/gi, "").trim();
+  const text = value.replace(/[^a-zA-Z\.0-9 ]/gi, "").trim();
 
   console.log(text);
   element.value = text;
@@ -62,7 +64,7 @@ addHandler(elements.contactFname, "keyup", (e) => {
 addHandler(elements.contactLname, "keyup", (e) => {
   const element = e.target;
   const value = e.target.value;
-  const text = value.replace(/[^a-zA-Z\.0-9]/gi, "").trim();
+  const text = value.replace(/[^a-zA-Z\.0-9 ]/gi, "").trim();
 
   console.log(text);
   element.value = text;
