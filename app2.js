@@ -1,6 +1,6 @@
 import express from "express";
 import { Server } from "socket.io";
-import http from "http";
+import https from "https";
 import path from "path";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
@@ -67,8 +67,9 @@ const sessionMiddleware = session({
 });
 const nanoid = customAlphabet("02468ouqtyminv", 13);
 const __dirname = path.resolve(".");
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.SPORT || 8443;
 const ADDRESS = process.env.ADDRESS || "0.0.0.0";
+const options = letsencryptOptions("rmediatech.com");
 
 // Express app
 const app = express();
@@ -157,7 +158,7 @@ app.use("/", landing);
 app.use("/auth", auth);
 app.use("/user", user);
 
-const server = http.createServer(app);
+const server = https.createServer(options, app);
 const io = new Server(server);
 
 io.on("connection", (socket) => {
